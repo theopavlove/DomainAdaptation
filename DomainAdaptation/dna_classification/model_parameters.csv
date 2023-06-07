@@ -1,0 +1,12 @@
+model,seed,bottleneck-dim,epochs,trade-off-norm,iters-per-epoch,pretrain-epochs,trade-off
+adda,1,256,60,,1000,10,
+afn,1,256,120,0.005,,,
+cdan,1,256,60,0.5,,,
+dan,1,256,60,0.5,1000,,
+dann,1,256,60,,1000,,
+erm,1,256,60,,1000,,
+fixmatch,1,256,60,,1000,,
+jan,1,256,60,0.5,1000,,
+mcc,1,256,60,0.05,1000,,
+mcd,1,256,60,0.1,1000,,
+mdd,1,256,60,0.5,1000,,
