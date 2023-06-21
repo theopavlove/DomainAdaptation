@@ -14,6 +14,7 @@ class ScriptGenerator:
         dir_output: Union[Path, str],
         source_genome: str,
         target_genome: str,
+        phase: str = 'train',
     ):
         for root_entry in sorted(os.scandir(dir_input), key=lambda x: x.name):
             if str(root_entry.name)[0] == ".":
@@ -23,7 +24,7 @@ class ScriptGenerator:
 
             print(f"Generating run scripts for {input_prefix}")
 
-            out_script_name = f"{dir_output}/{input_prefix}/train.run"
+            out_script_name = f"{dir_output}/{input_prefix}/{phase}.run"
             if os.path.exists(out_script_name):
                 os.remove(out_script_name)
 
@@ -50,6 +51,7 @@ class ScriptGenerator:
                         f"--seed {model_params_df.loc[model,'seed']} "
                         f"--epochs {model_params_df.loc[model,'epochs']} "
                         f"--log {model if model != 'erm' else 'src_only'}-{input_prefix}.{source_genome}.{target_genome}-seed-{model_params_df.loc[model,'seed']} "
+                        f"--phase {phase}"
                     )
 
                     for param in [
