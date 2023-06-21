@@ -1,7 +1,3 @@
-"""
-@author: Ying Jin
-@contact: sherryying003@gmail.com
-"""
 import random
 import time
 import warnings

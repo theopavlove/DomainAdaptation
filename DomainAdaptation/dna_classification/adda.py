@@ -1,10 +1,3 @@
-"""
-@author: Baixu Chen
-@contact: cbx_99_hasta@outlook.com
-Note: Our implementation is different from ADDA paper in several respects. We do not use separate networks for
-source and target domain, nor fix classifier head. Besides, we do not adopt asymmetric objective loss function
-of the feature extractor.
-"""
 import random
 import time
 import warnings
