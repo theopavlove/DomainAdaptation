@@ -174,7 +174,7 @@ class Preprocessor:
         bedtools_bin: str = "bedtools",
     ):
         dir_input = Path(dir_input)
-        dir_output = Path(dir_output)
+        dir_output = Path(dir_output) / "data"
         dir_genome = Path(dir_genome)
 
         for root_entry in sorted(os.scandir(dir_input), key=lambda x: x.name):

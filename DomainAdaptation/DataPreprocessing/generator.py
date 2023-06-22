@@ -50,7 +50,7 @@ class ScriptGenerator:
                         f"--scratch "
                         f"--seed {model_params_df.loc[model,'seed']} "
                         f"--epochs {model_params_df.loc[model,'epochs']} "
-                        f"--log {model if model != 'erm' else 'src_only'}-{input_prefix}.{source_genome}.{target_genome}-seed-{model_params_df.loc[model,'seed']} "
+                        f"--log .logs/{model if model != 'erm' else 'src_only'}-{input_prefix}.{source_genome}.{target_genome}-seed-{model_params_df.loc[model,'seed']} "
                         f"--phase {phase}"
                     )
 
