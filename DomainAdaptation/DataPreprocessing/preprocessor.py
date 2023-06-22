@@ -179,7 +179,7 @@ class Preprocessor:
 
         for root_entry in sorted(os.scandir(dir_input), key=lambda x: x.name):
             preprocessed_dir = (
-                dir_output / f"data/{root_entry.name.rsplit('.', maxsplit=1)[0]}"
+                dir_output / f"{root_entry.name.rsplit('.', maxsplit=1)[0]}/data"
             )
             os.makedirs(preprocessed_dir, exist_ok=True)
 
