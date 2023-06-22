@@ -107,7 +107,7 @@ class Preprocessor:
                 if (".fa" in bed_input) or ("random" in bed_input):
                     continue
 
-                bed_input_path = f"{root_entry.path}/{bed_input}"
+                bed_input_path = f"{root_entry.path}/data/{bed_input}"
                 bed_output_path = bed_input_path.replace(".bed", ".random.bed")
                 if os.path.exists(bed_output_path):
                     logging.warning(f"Already exists, so skipping: {bed_input}")
@@ -186,7 +186,7 @@ class Preprocessor:
             bed_output = preprocessed_dir / f"{root_entry.name}.bed"
             if os.path.exists(bed_output):
                 logging.warning(
-                    f"Already exists, so skipping: {os.path.basename(bed_output)}"
+                    f"Already exists, so skipping: {str(bed_output)}"
                 )
                 continue
 
