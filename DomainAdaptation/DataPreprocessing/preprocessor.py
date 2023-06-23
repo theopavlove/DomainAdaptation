@@ -107,6 +107,7 @@ class Preprocessor:
             root_entry_data = root_entry / "data"
             if not root_entry_data.exists():
                 logging.warning(f"No data folder for {root_entry}. Skipping...")
+                continue
 
             for bed_input in root_entry_data.iterdir():
                 if (".fa" == bed_input.suffix) or ("random" in bed_input.name):
