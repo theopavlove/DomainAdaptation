@@ -1,5 +1,8 @@
 # Junk
 .DS_Store
+.vscode
+run.py
+run.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

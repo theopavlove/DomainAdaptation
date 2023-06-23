@@ -100,25 +100,27 @@ class Preprocessor:
         get_fasta: bool = True,
         bedtools_bin: str = "bedtools",
     ):
-        for root_entry in sorted(os.scandir(dir_input), key=lambda x: x.name):
+        dir_input = Path(dir_input)
+        dir_genome = Path(dir_genome)
+
+        for root_entry in dir_input.iterdir():
+            print(root_entry)
             if str(root_entry.name)[0] == ".":
                 continue
-            for bed_input in sorted(os.listdir(root_entry.path)):
-                if (".fa" in bed_input) or ("random" in bed_input):
+            for bed_input in (root_entry / "data").iterdir():
+                if (".fa" == bed_input.suffix) or ("random" in bed_input.name):
                     continue
 
-                bed_input_path = f"{root_entry.path}/data/{bed_input}"
-                bed_output_path = bed_input_path.replace(".bed", ".random.bed")
+                bed_input_path = bed_input
+                bed_output_path = bed_input_path.with_suffix(".random.bed")
                 if os.path.exists(bed_output_path):
                     logging.warning(f"Already exists, so skipping: {bed_input}")
                     continue
 
                 print(f"Generating random samples for {bed_input}")
 
-                assembly = bed_input.rsplit(".", maxsplit=2)[-2]
-                bed_output_2x_path = (
-                    f"{root_entry.path}/{bed_input.replace('.bed', '.random_2x.bed')}"
-                )
+                assembly = bed_input.name.rsplit(".", maxsplit=2)[-2]
+                bed_output_2x_path = bed_input.with_suffix(".random_2x.bed")
 
                 with tempfile.TemporaryDirectory() as tmpdir:
                     bed_exclude_path = f"{tmpdir}/excl.bed"
@@ -134,7 +136,7 @@ class Preprocessor:
 
                     with open(bed_output_path, "w") as f_out:
                         self.run_bedtools_shuffle(
-                            bed_input_path,
+                            str(bed_input_path),
                             bed_exclude_path,
                             f"{dir_genome}/{assembly}.chrom.sizes",
                             f_out,
@@ -149,8 +151,12 @@ class Preprocessor:
                             bedtools_bin,
                         )
 
-                    self.test_preprocessed_files(bed_input_path, bed_output_path)
-                    self.test_preprocessed_files(bed_input_path, bed_output_2x_path)
+                    self.test_preprocessed_files(
+                        str(bed_input_path), str(bed_output_path)
+                    )
+                    self.test_preprocessed_files(
+                        str(bed_input_path), str(bed_output_2x_path)
+                    )
 
                     if get_fasta:
                         self.get_fasta_from_bed(
@@ -185,9 +191,7 @@ class Preprocessor:
 
             bed_output = preprocessed_dir / f"{root_entry.name}.bed"
             if os.path.exists(bed_output):
-                logging.warning(
-                    f"Already exists, so skipping: {str(bed_output)}"
-                )
+                logging.warning(f"Already exists, so skipping: {str(bed_output)}")
                 continue
 
             print(f"Preprocessing {root_entry.name:36}")
@@ -220,12 +224,12 @@ class Preprocessor:
                 output_df.to_csv(bed_output, sep="\t", header=False, index=False)
 
                 size_input = int(
-                    cmdrun(f"wc -l {tmp_bed_input}", shell=True)
+                    cmdrun(f"wc -l {tmp_bed_input}", shell=True)  # nosec
                     .stdout.decode("utf-8")
                     .split()[0]
                 )
                 size_output = int(
-                    cmdrun(f"wc -l {bed_output}", shell=True)
+                    cmdrun(f"wc -l {bed_output}", shell=True)  # nosec
                     .stdout.decode("utf-8")
                     .split()[0]
                 )

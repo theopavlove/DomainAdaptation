@@ -14,7 +14,7 @@ class ScriptGenerator:
         dir_output: Union[Path, str],
         source_genome: str,
         target_genome: str,
-        phase: str = 'train',
+        phase: str = "train",
     ):
         for root_entry in sorted(os.scandir(dir_input), key=lambda x: x.name):
             if str(root_entry.name)[0] == ".":
@@ -50,7 +50,7 @@ class ScriptGenerator:
                         f"--scratch "
                         f"--seed {model_params_df.loc[model,'seed']} "
                         f"--epochs {model_params_df.loc[model,'epochs']} "
-                        f"--log .logs/{model if model != 'erm' else 'src_only'}-{input_prefix}.{source_genome}.{target_genome}-seed-{model_params_df.loc[model,'seed']} "
+                        f"--log ./logs/{model if model != 'erm' else 'src_only'}-{input_prefix}.{source_genome}.{target_genome}-seed-{model_params_df.loc[model,'seed']} "  # noqa
                         f"--phase {phase}"
                     )
 
