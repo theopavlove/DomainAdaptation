@@ -104,10 +104,11 @@ class Preprocessor:
         dir_genome = Path(dir_genome)
 
         for root_entry in dir_input.iterdir():
-            print(root_entry)
-            if str(root_entry.name)[0] == ".":
-                continue
-            for bed_input in (root_entry / "data").iterdir():
+            root_entry_data = root_entry / "data"
+            if not root_entry_data.exists():
+                logging.warning(f"No data folder for {root_entry}. Skipping...")
+
+            for bed_input in root_entry_data.iterdir():
                 if (".fa" == bed_input.suffix) or ("random" in bed_input.name):
                     continue
 
