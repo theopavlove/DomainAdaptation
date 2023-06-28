@@ -14,6 +14,7 @@ class ScriptGenerator:
         dir_output: Union[Path, str],
         source_genome: str,
         target_genome: str,
+        models: list[bool],
         phase: str = "train",
     ):
         for root_entry in sorted(os.scandir(dir_input), key=lambda x: x.name):
@@ -34,6 +35,9 @@ class ScriptGenerator:
 
             with open(out_script_name, "a") as f_out:
                 for model in model_params_df.index:
+                    if not models[model]:
+                        continue
+
                     src_data_prefix = f"{input_prefix}.{source_genome}"
                     tgt_data_prefix = f"{input_prefix}.{target_genome}"
 
