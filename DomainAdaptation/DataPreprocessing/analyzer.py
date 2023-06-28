@@ -57,8 +57,11 @@ class Analyzer:
         total_dfs: dict = {}
 
         for directory in sorted(path_to_logs.iterdir()):
-            test_log_ptrn = directory.glob("test-*.txt")
-            path_to_test_logs = list(test_log_ptrn)[0]
+            test_log_ptrn = list(directory.glob("test-*.txt"))
+            if not len(test_log_ptrn):
+                continue
+
+            path_to_test_logs = test_log_ptrn[0]
 
             metrics: dict = {}
             train_params: dict = {}
